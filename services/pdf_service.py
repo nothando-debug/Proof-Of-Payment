@@ -1,10 +1,16 @@
 import re
+from pathlib import Path
 import pdfplumber
 
 pdf_path = r"C:\Prashely\Projects\ProofOfPayment\samples\PaymentConfirmation July 25 Maporch.pdf"
 
 def extract_text_from_pdf(pdf_path):
-    text = " "
+    pdf_path = Path(pdf_path)
+
+    if not pdf_path.exists():
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    text = ""
     with pdfplumber.open(pdf_path) as pdf:
         for page in pdf.pages:
             page_text = page.extract_text()
